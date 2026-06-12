@@ -7,7 +7,14 @@ class FeedbackService {
   }
 
   async createFeedback(data) {
+    const { candidateId, interviewerId, rating, comment } = data;
+
+    if (!candidateId || !interviewerId || rating === undefined || !comment) {
+      throw new AppError("All fields are required", 400);
+    }
+
     return await this.feedbackRepo.createFeedback(data);
+
   }
 
   async getAllFeedbacks() {

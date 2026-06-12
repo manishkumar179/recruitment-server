@@ -7,7 +7,17 @@ class MongoFeedbackRepository extends IFeedbackRepository {
     try {
       return await Feedback.create(data);
     } catch (error) {
-      throw new AppError("Unable to create feedback", 500);
+      if(error.name === "ValidationError"){
+        throw new AppError(
+          error.message , 
+          400
+        );
+      }
+
+      throw new AppError(
+        "Unable to create feedback",
+        500
+      );
     }
   }
 
